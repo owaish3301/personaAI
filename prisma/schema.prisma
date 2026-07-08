@@ -23,6 +23,9 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  conversation Conversation[]
+  message Message[]
+
   @@unique([email])
   @@map("user")
 }
@@ -73,4 +76,36 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Persona {
+  id String @id @default(uuid())
+  name String
+  systemPrompt String
+
+  conversation Conversation[]
+}
+
+model Conversation{
+  id String @id @default(uuid())
+  userId String
+  personaId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  persona Persona @relation(fields: [personaId], references: [id])
+  message Message[]
+
+  @@unique([personaId, userId])
+}
+
+model Message {
+  id String @id @default(ulid())
+  content String
+  authorId String?
+  author User? @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  conversationId String
+  
+  conversation Conversation @relation(fields: [conversationId], references: [id])
 }
