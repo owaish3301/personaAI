@@ -1,18 +1,28 @@
+interface PersonaMessageProps {
+  pfp: string;
+  message: string;
+  time: string;
+}
 
-const PersonaMessage = ({pfp, message, time}:{pfp:string, message:string, time:string}) => {
+const PersonaMessage = ({ pfp, message, time }: PersonaMessageProps) => {
   return (
-    <div className="flex max-w-165 items-start gap-4 max-[920px]:max-w-full">
-      <div className="grid size-10.75 shrink-0 place-items-center rounded-full bg-linear-135 from-[#ffb21a] to-[#ff7a00] text-[22px] font-bold text-white">
+    <div className="flex max-w-2xl items-start gap-3.5 md:gap-4 w-full">
+      {/* Avatar */}
+      <div className="grid size-10.5 shrink-0 place-items-center rounded-xl bg-linear-135 from-amber-450 to-orange-500 font-extrabold text-white text-lg shadow-sm shadow-orange-500/10">
         {pfp}
       </div>
-      <div>
-        <div className="min-w-106.5 rounded-[10px] border border-[#dfe4ec] bg-[#f4f5f7] px-5.25 py-3.75 text-[17px] leading-[1.48] text-slate-900 shadow-[0_10px_24px_rgba(15,23,42,0.05)] max-[920px]:min-w-0">
-          {message}
+      
+      {/* Message Bubble Container */}
+      <div className="flex-1 min-w-0">
+        <div className="rounded-2xl border border-slate-200/70 bg-white px-5 py-4 text-[15px] leading-relaxed text-slate-850 shadow-xs transition-colors duration-300 dark:border-zinc-850 dark:bg-zinc-900 dark:text-zinc-100">
+          <p className="whitespace-pre-wrap break-words">{message}</p>
         </div>
-        <p className="mt-2 ml-5 text-sm font-medium text-[#536176]">{time}</p>
+        <p className="mt-1.5 ml-3.5 text-xxs font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+          {time}
+        </p>
       </div>
     </div>
   );
-}
+};
 
 export default PersonaMessage;

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import chat from "../AI/chat";
 
 export default async function getOrCreateConversation({
   userId,
@@ -28,7 +29,7 @@ export default async function getOrCreateConversation({
     select: {
       id: true,
       persona: true,
-      message: {orderBy : {createdAt :"asc"}},
+      message: { orderBy: { createdAt: "asc" } },
     },
   });
 }
@@ -52,5 +53,21 @@ export async function chatSubmit(personaId: string, formData: FormData) {
       conversation: { connect: { id: conversation.id } },
     },
   });
-  revalidatePath(`/chat/${personaId }`)
+
+  const messageList = (
+    await getOrCreateConversation({ userId: session.user.id, personaId })
+  ).message;
+
+  const result = await chat(messageList, conversation.persona.systemPrompt);
+  if (!result) throw new Error("LLM didnot respond");
+  await prisma.message.create({
+    data: {
+      content: result,
+      conversation: {
+        connect: { id: conversation.id },
+      },
+    },
+  });
+
+  revalidatePath(`/chat/${personaId}`);
 }
