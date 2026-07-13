@@ -28,7 +28,7 @@ export default function AppLayout({ personas, user, children }: AppLayoutProps) 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-50">
+    <div className="h-screen flex flex-col bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-50 overflow-hidden">
       {/* Header */}
       <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200/80 bg-white/80 px-4 backdrop-blur-md transition-colors duration-300 dark:border-zinc-800/80 dark:bg-zinc-900/80 md:px-6">
         <div className="flex items-center gap-3">
@@ -106,7 +106,7 @@ export default function AppLayout({ personas, user, children }: AppLayoutProps) 
         {/* Sidebar Panel */}
         <aside
           className={`
-            fixed bottom-0 top-16 z-35 flex w-76 flex-col border-r border-slate-200/80 bg-white transition-all duration-300 ease-in-out dark:border-zinc-800/80 dark:bg-zinc-900 lg:sticky lg:left-0 lg:z-10
+            fixed bottom-0 top-16 z-35 flex w-76 flex-col border-r border-slate-200/80 bg-white transition-all duration-300 ease-in-out dark:border-zinc-800/80 dark:bg-zinc-900 lg:relative lg:top-0 lg:bottom-0 lg:z-10
             ${mobileMenuOpen ? "left-0" : "-left-76 lg:left-0"}
           `}
         >
